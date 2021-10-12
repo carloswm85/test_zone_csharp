@@ -3,11 +3,18 @@ using Unity;
 
 namespace unity_container_demo
 {
+    // Interfaces
     public interface ICar
     {
         int Run();
     }
 
+    public interface ICarKey
+    {
+
+    }
+
+    // CARS
     public class BMW : ICar
     {
         private int _miles = 0;
@@ -39,6 +46,24 @@ namespace unity_container_demo
 
     }
 
+    // KEYS
+    public class BMWKey : ICarKey
+    {
+
+    }
+
+    public class AudiKey : ICarKey
+    {
+
+    }
+
+    public class FordKey : ICarKey
+    {
+
+    }
+
+
+    // DRIVER
     public class Driver
     {
         private ICar _car = null;
@@ -50,7 +75,69 @@ namespace unity_container_demo
 
         public void RunCar()
         {
-            Console.WriteLine("Running {0} - {1} mile", _car.GetType().Name, _car.Run());
+            Console.WriteLine("D1. Running {0} - {1} mile", _car.GetType().Name, _car.Run());
+        }
+    }
+
+    // Multiple Parameters Class
+    public class Driver2
+    {
+        private ICar _car = null;
+        private ICarKey _key = null;
+
+        public Driver2(ICar car, ICarKey key)
+        {
+            _car = car;
+            _key = key;
+        }
+
+        public void RunCar()
+        {
+            Console.WriteLine("D2. Running {0} with {1} - {2} mile", _car.GetType().Name, _key.GetType().Name, _car.Run());
+        }
+    }
+
+    // Multiple Constructor Class
+    public class Driver3
+    {
+        private ICar _car = null;
+
+        [InjectionConstructor]
+        public Driver3(ICar car)
+        {
+            _car = car;
+        }
+        /* As you can see, the Driver3 class includes two constructors.
+         * So, we have used the [InjectionConstructor] attribute to
+         * indicate which constructor to call when resolving the Driver
+         * class.*/
+
+        public Driver3(string name)
+        {
+        }
+
+        public void RunCar()
+        {
+            Console.WriteLine("D3. Running {0} - {1} mile", _car.GetType().Name, _car.Run());
+        }
+    }
+
+    // With primitive type parameter
+    public class Driver4
+    {
+        private ICar _car = null;
+        private string _name = string.Empty;
+
+        public Driver4(ICar car, string driverName)
+        {
+            _car = car;
+            _name = driverName;
+        }
+
+        public void RunCar()
+        {
+            Console.WriteLine("{0} is running {1} - {2} mile ",
+                            _name, _car.GetType().Name, _car.Run());
         }
     }
 
@@ -123,6 +210,56 @@ namespace unity_container_demo
 
             Driver driver7 = container4.Resolve<Driver>();
             driver7.RunCar();
+
+            // We can register and resolve different types using Unity container.
+
+
+            /* ==================== MULTIPLE PARAMETERS */
+            Console.WriteLine("==================== MULTIPLE PARAMETERS");
+            IUnityContainer container5 = new UnityContainer();
+            container5.RegisterType<ICar, Audi>();
+            container5.RegisterType<ICarKey, AudiKey>();
+
+
+            Driver2 driver8 = container5.Resolve<Driver2>();
+            driver8.RunCar();
+
+
+            /* ==================== MULTIPLE CONSTRUCTORs */
+            Console.WriteLine("==================== MULTIPLE CONSTRUCTORs");
+            /* As you can see, the Driver3 class includes two constructors. So,
+             * we have used the [InjectionConstructor] attribute to indicate
+             * which constructor to call when resolving the Driver3 class. */
+            // see Driver3 class.
+
+            /* You can configure the same thing as above at run time instead
+             * of applying the [InjectionConstructor] attribute by passing
+             * an object of the InjectionConstructor in the RegisterType()
+             * method, as shown below.*/
+            IUnityContainer container6 = new UnityContainer();
+            IUnityContainer container7 = new UnityContainer();
+            // use
+            container6.RegisterType<Driver3>(new Unity.Injection.InjectionConstructor(new Ford()));
+
+            Driver3 driver9 = container6.Resolve<Driver3>();
+            driver9.RunCar();
+
+            //or 
+            container7.RegisterType<ICar, Ford>();
+            container7.RegisterType<Driver3>(new Unity.Injection.InjectionConstructor(container7.Resolve<ICar>()));
+
+            Driver3 driver10 = container7.Resolve<Driver3>();
+            driver10.RunCar();
+
+            /* ==================== WITH PRIMITIVE DATA TYPE PARAMETER */
+            Console.WriteLine("==================== WITH PRIMITIVE DATA TYPE PARAMETER ");
+
+            IUnityContainer container8 = new UnityContainer();
+
+            container8.RegisterType<Driver4>(new Unity.Injection.InjectionConstructor(new object[] { new Audi(), "Steve" }));
+
+            Driver4 driver11 = container8.Resolve<Driver4>(); // Injects Audi and Steve
+            driver11.RunCar();
         }
     }
 }
