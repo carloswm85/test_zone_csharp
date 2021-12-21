@@ -16,6 +16,16 @@ namespace f_test_zone_csharp
 		public string Name { get; set; }
 		public DateTime Bdate { get; set; }
 		public double Height { get; set; }
+
+		// This one writes to the console
+		public override string ToString()
+		{
+			return 
+			"Age: " + Age +
+			"\nName: " + Name +
+			"\nBirthdate: " + Bdate + 
+			"\nHeight: " + Height;
+		}
 	}
 
 	public class Lists
@@ -38,10 +48,20 @@ namespace f_test_zone_csharp
 			DateTime dateTime2 = DateTime.Parse(dateString2);
 
 			Person person1 = new Person(23, "Clara", dateTime, 1.85);
-			Person Person2 = new Person(52, "Mike", dateTime1, 1.9);
-			Person Person3 = new Person(16, "Jen", dateTime2, 1.75);
+			Person person2 = new Person(52, "Mike", dateTime1, 1.9);
+			Person person3 = new Person(16, "Jen", dateTime2, 1.75);
 
-			Console.WriteLine(person1.Age);
+			List<Person> personas = new List<Person>();
+
+			personas.Add(person1);
+			personas.Add(person2);
+			personas.Add(person3);
+
+			foreach (Person individual in personas)
+			{
+				Console.WriteLine(individual + "\n");
+			}
+
 
 		}
 	}
