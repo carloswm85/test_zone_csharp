@@ -25,6 +25,10 @@ Focus on the core of the language.
 
 Learn more.
 
+# Learning Sites
+
+- https://refactoring.guru/design-patterns/csharp
+- https://dotnettutorials.net/course/dot-net-design-patterns/ 
 # General Notes
 
 - Style: https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions
