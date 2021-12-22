@@ -6,16 +6,18 @@
 
 - strong typing 
 - object-oriented design
+- multi-paradigm nature
 # Learning List
 
 Focus on the core of the language.
 - Learn:
-  - basic syntax, 
-  - different primitive types, and other types,
-  - how to construct a method, how to overload a method, how to extend a method, how to write a method with a specific return type, the operators, and then apply them in a small and simple project.
+  - basic syntax, program structure
+  - different data types (primitive and other types)
+  - how to construct a method, how to overload a method, how to extend a method, how to write a method with a specific return type, the operators, and then apply them in a small and simple project
 - Learn:
   - a little bit of the .NET Framework at a time,
   - concepts of OOP, LINQ, FP, how to incorporate database types into your project (XML, JSON, SQL, ect), learn reflection,
+  - I/O operations (reading/writing from/to files)
 
 Learn more.
 
@@ -35,3 +37,9 @@ Learn more.
 ```console
 dotnet run
 ```
+
+# Books
+
+- Microsoft Enterprise architecture,
+- Clean code architectures and vertical slice
+- clean code Domain driven design and vertical slice
