@@ -18,6 +18,10 @@ Focus on the core of the language.
   - a little bit of the .NET Framework at a time,
   - concepts of OOP, LINQ, FP, how to incorporate database types into your project (XML, JSON, SQL, ect), learn reflection,
   - I/O operations (reading/writing from/to files)
+- OOP:
+  - classes, objects, access modifiers, properties, interfaces, inheritance, implementation, polymorphism, and eventually learn the object-oriented design patterns.
+- Advanced:
+  - LINQ, Collections, Reflection, Generics, Extension Methods, Multi-threading, PLINQ (Parallel LINQ), asynchronous programming with async/await, expression trees, delegates, dynamics, events.
 
 Learn more.
 
