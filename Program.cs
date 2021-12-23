@@ -62,6 +62,8 @@ namespace f_test_zone_csharp
 				Console.WriteLine(individual + "\n");
 			}
 
+			Console.WriteLine("{0}", sizeof(int));
+
 
 		}
 	}
