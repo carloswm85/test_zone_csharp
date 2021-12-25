@@ -29,6 +29,8 @@ Learn more.
 
 - https://refactoring.guru/design-patterns/csharp
 - https://dotnettutorials.net/course/dot-net-design-patterns/ 
+- https://www.kenneth-truyers.net/2016/02/02/vertical-slices-in-asp-net-mvc/ 
+
 # General Notes
 
 - Style: https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions
