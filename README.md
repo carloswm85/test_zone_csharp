@@ -1,13 +1,24 @@
-# test_zone_csharp
 
-## C#
+- [C-Sharp](#c-sharp)
+  - [Core Features](#core-features)
+- [To-Learn](#to-learn)
+- [Learning Sites](#learning-sites)
+  - [Design/Patterns](#designpatterns)
+- [Readings](#readings)
+- [General Notes](#general-notes)
+- [Project Instructions](#project-instructions)
+  - [.NET Console Application](#net-console-application)
+    - [Commands](#commands)
+- [Books](#books)
 
-### Core Features
+# C-Sharp
+
+## Core Features
 
 - strong typing 
 - object-oriented design
 - multi-paradigm nature
-# Learning List
+# To-Learn
 
 Focus on the core of the language.
 - Learn:
@@ -35,9 +46,13 @@ Learn more.
 
 - Repository Pattern and Unit of Work: [Link](https://dev.to/moe23/step-by-step-repository-pattern-and-unit-of-work-with-asp-net-core-5-3l92)
 
+
+# Readings
+
+- https://www.telerik.com/blogs/modern-tech-stack-for-asp-dotnet-apps
 # General Notes
 
-- Style: https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions
+- Style: [Link](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions)
 
 # Project Instructions
 
