@@ -31,6 +31,10 @@ Learn more.
 - https://dotnettutorials.net/course/dot-net-design-patterns/ 
 - https://www.kenneth-truyers.net/2016/02/02/vertical-slices-in-asp-net-mvc/ 
 
+## Design/Patterns
+
+- Repository Pattern and Unit of Work: [Link](https://dev.to/moe23/step-by-step-repository-pattern-and-unit-of-work-with-asp-net-core-5-3l92)
+
 # General Notes
 
 - Style: https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions
