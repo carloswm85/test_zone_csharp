@@ -12,6 +12,17 @@ Personal notes on C# programming language.
 - [Project Instructions](#project-instructions)
   - [.NET Console Application](#net-console-application)
     - [Commands](#commands)
+- [Programming Notes](#programming-notes)
+  - [Arrays](#arrays)
+  - [Classes](#classes)
+    - [Class example:](#class-example)
+  - [Collections](#collections)
+    - [Generic](#generic)
+    - [Concurrent](#concurrent)
+    - [Simple](#simple)
+  - [(Some) Concepts](#some-concepts)
+  - [Unit Testing](#unit-testing)
+    - [Unit Testing example:](#unit-testing-example)
 - [Code Notes](#code-notes)
   - [Function-bodied expressions](#function-bodied-expressions)
   - [Overriding](#overriding)
@@ -21,12 +32,21 @@ Personal notes on C# programming language.
   - [Auto-properties](#auto-properties)
   - [Extension Methods](#extension-methods)
   - [`interface`](#interface)
+  - [LINQ (Language Integrated Query)](#linq-language-integrated-query)
+    - [Code Example:](#code-example)
+    - [Extension Methods:](#extension-methods-1)
   - [`namespace`](#namespace)
   - [`public`](#public)
   - [`static`](#static)
   - [`this`](#this)
   - [`virtual`](#virtual)
 - [Books](#books)
+- [Courses](#courses)
+  - [C# Path: `Become a C# Developer`](#c-path-become-a-c-developer)
+    - [Courses:](#courses-1)
+    - [Links:](#links)
+  - [Basic Programming](#basic-programming)
+  - [Other C# Courses](#other-c-courses)
 
 # C-Sharp
 
@@ -84,6 +104,152 @@ Learn more.
 dotnet run
 ```
 
+# Programming Notes
+
+## Arrays
+
+```csharp
+// single
+var someList = new string[4]
+var groceryList = new string[4] { "milk", "eggs", "cheese" };
+groceryList[3] = "apples"; // It makes any change by copy
+Array.Resize(ref groceryList, 6); // It operates directly in the array, by memory
+public string[] AnotherList;
+```
+
+```csharp
+// multi-dimensional
+var multi = new int[2, 3] { // 2 rows, 3 columns
+  { 0, 1, 2 },
+  { 4, 5, 6 }
+};
+```
+
+
+## Classes
+
+### Class example:
+```csharp
+public class School {
+
+  // PROPERTIES, with getters/setters, with/without logic
+  public string[] aList;
+  public string Name { get; set; }
+	public List<string> Sauces { get; set; }
+  private string _twitterAddress; // backing variable
+
+  // setter with logic in it
+  public string TwitterAddress
+  {
+    // make sure the twitter address starts with @
+    get { return _twitterAddress;  }
+    set
+    {
+      if (value.StartsWith("@"))
+      {
+        _twitterAddress = value;
+      }
+      else
+      {
+        // EXCEPTION
+        throw new Exception("The Twitter address must begin with @");
+      }
+    }
+  }
+
+  // CONSTRUCTORS, with/without arguments
+  // ctor - It creates an empty constructor
+  public School()
+  {
+    Name = "Untitled School";
+    TwitterAddress = "@USchool";
+		Sauces = new List<string>();
+
+  }
+
+  // METHODS, with/without overload, with/without override
+  // 01
+  public static float AverageThreeScores(float a, float b, float c) => (a + b + c) / 3;
+  
+  // 02
+  public static int AverageThreeScores(int a, int b, int c)
+  {
+    var result = (a + b + c) / 3;
+    return result;
+  }
+
+  // 03
+  public bool IsSauceAwesome(string sauce)
+  {
+    return Sauces.Contains(sauce);
+  }
+
+  // 04
+  public override string ToString()
+  {
+      var sb = new StringBuilder();
+      sb.AppendLine(Name);
+      return sb.ToString();
+  }
+}
+```
+
+## Collections
+[External Link ↗](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/collections#kinds-of-collections)
+### Generic
+- Dictionary, List, Queue, SortedList, Stack.
+- `new List<T>()` which `<T>` means a "generic", it can take a "type", any primitive/class/somethig, as part of its declaration.
+
+```csharp
+var testList = new List<string>();
+var dictionaryWord = new Dictionary<string, int>(); // from implicit 0 elements on
+```
+
+### Concurrent
+- The classes in the System.Collections.Concurrent namespace should be used instead of the corresponding types in the System.Collections.Generic and System.Collections namespaces whenever multiple threads are accessing the collection concurrently.
+### Simple
+- ArrayList, Hashtable, Queue, Stack.
+
+## (Some) Concepts
+- Strongly typed: The type of data MUST be declared (eg. In an array).
+ 
+## Unit Testing
+- Part of the AGILE Development.
+- Integral part of Test-Driven Development (TDD).
+- The goal is to get 100% coverage over the tested methods.
+- [Short video ↗](https://www.linkedin.com/learning/c-sharp-essential-training-2-flow-control-arrays-and-exception-handling/what-is-unit-testing)
+- Workflow:
+  - Create or change code. →
+  - Create a repeatable test. →
+  - Review results. →
+  - (Repeat the process as many times as you need/want.) ←
+
+### Unit Testing example:
+```csharp
+namespace EssentialTrainingTests
+{
+	[TestClass]
+	public class SimpleArrayTest
+	{
+		[TestMethod]
+		public void TestInstantiation()
+		{
+			var testInstance = new SimpleArray();
+			Assert.AreEqual(testInstance.GroceryList.Length, 4);
+			Assert.AreEqual(testInstance.GroceryList[1], "milk");
+		}
+
+		[TestMethod]
+		public void TestToString()
+		{
+			var testInstance = new SimpleArray();
+			Assert.IsTrue(testInstance.ToString().StartsWith("There are")); // expect true
+			Assert.IsFalse(testInstance.ToString().StartsWith("I like potatoes")); // expect false
+		}
+	}
+}
+```
+
 # Code Notes
 
 ## Function-bodied expressions
@@ -128,17 +294,18 @@ public override string SendMessage(string message)
 - [StackOverflow ↗](https://stackoverflow.com/questions/614818/in-c-what-is-the-difference-between-public-private-protected-and-having-no)
 
 | Keyword | Description |
-| -- | -- |
-| public | The type or member can be accessed by any other code in the same assembly or another assembly that refernces it. |
-| private | The type or member can only be accessed by code in the same class or struct. |    | protected | The type or member can only be accessed by code in the same class or struct, or in a derived class. 
+| - | - |
+| public | The type or member can be accessed by any other code in the same assembly or another assembly that refernces it. It can be seen from inside other projects. |
+| private | The type or member can only be accessed by code in the same class or struct.|
+| protected | The type or member can only be accessed by code in the same class or struct, or in a derived class. |
 | private protected (added in C# 7.2) | The type or member can only be accessed by code in the same class or struct, or in a derived classfrom the same assembly, but not from another assembly. |
 | internal | The type or member can be accessed by any code in the same assembly, but not from another assembly. |
 | protected internal | The type or member can be accessed by any code in the same assembly, or by any derived class in another assembly. |
 
 
 | ![image](img/access-modifiers.png) |
-|:--:|
-| *Schema.* |
+| :--------------------------------: |
+|             *Schema.*              |
 
 If you struggle to remember the two-worded access modifiers, remember outside-inside:
 - `private protected`: `private` outside (the same assembly), `protected` inside (same assembly).
@@ -229,6 +396,23 @@ namespace SchoolLibrary
 }
 ```
 
+## LINQ (Language Integrated Query)
+- It's a feature set.
+- Set of extension classes/methods that hook pretty much any kind of collection.
+
+### Code Example:
+```csharp
+var listOfNumbers = new int[5] { 1, 3, 5, 7, 11 };
+listOfNumbers.Sum() // 27
+listOfNumbers.Average() // 5.4
+listOfNumbers.Where(item => item > 5) // Enumerable.WhereArrayIterator<int> { 7, 11 }
+```
+
+### Extension Methods:
+- You can add methods to something, even though you don't have access to the original source code.
+- Extension methods allow developers to add new methods to the public contract of an existing CLR type, without having to sub-class it or recompile the original type.
+- Extension Methods help blend the flexibility of "duck typing" support popular within dynamic languages today with the performance and compile-time validation of strongly-typed languages.
+- [Additional information ↗](https://stackoverflow.com/a/403556/7389293)
 
 ## `namespace`
 - They are packages in Java.
@@ -236,7 +420,7 @@ namespace SchoolLibrary
 ## `public`
 - 
 ## `static`
-
+- Used for none-instanciable methods. They belong to the class alone.
 ## `this`
 - Current object.
 
@@ -250,3 +434,32 @@ namespace SchoolLibrary
 - Microsoft Enterprise architecture,
 - Clean code architectures and vertical slice
 - clean code Domain driven design and vertical slice
+
+# Courses
+
+
+## C# Path: `Become a C# Developer`
+
+### Courses:
+- _C# Essential Training: 1 Syntax and Object Oriented Programming_, with Bruce Van Horn | [Course Assignments →](courses/SchoolApp/)
+- _C# Essential Training: 2 Flow Control, Arrays, and Exception Handling_, with Bruce Van Horn | [Course Assignments →]()
+- _Code Clinic: C#_, with | [Course →]()
+- _C# Algorithms_, with | [Course →]()
+- _C#: Design Patterns Part 1_, with | [Course →]()
+- _Nail Your C# Developer Interview_, with | [Course →]()
+- Other Courses:
+  - _Visual Studio Essential Training series_, with Walt Ritscher.
+  - _C# Test Driven Development_, with Reynald Adolphe.
+  - _C# Object-Oriented Programming Tips and Tricks_, with Jesse Freeman. 
+
+### Links:
+  - https://www.linkedin.com/learning/paths/become-a-c-sharp-developer?u=2153100
+  - [courses/README.md →](courses/README.md)
+
+## Basic Programming
+- _Programming Foundations: Fundamental_, with Simon Allardice
+- _Programming Foundations: Object-Oriented Design_, with Simon Allardice
+- _Introduction to Object-Oriented Languages_, with Simon Allardice
+
+## Other C# Courses
+- _LINQ with C# Essential Training_, with 
