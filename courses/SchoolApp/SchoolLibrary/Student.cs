@@ -14,9 +14,16 @@ namespace SchoolLibrary
             return 4.0f;
         }
 
+        // This method is overriding a virtual method
         public override string SendMessage(string message)
         {
             var original = base.SendMessage(message);
+            var sb = new StringBuilder(original);
+            sb.AppendLine("This message is private and confidential.");
+            sb.AppendLine("(This is a new line.)");
+            sb.Append("{This is appending a line.}");
+            sb.AppendLine("[This is a new line again.]");
+            return sb.ToString();
         }
     }
 }

@@ -1,4 +1,4 @@
-// AUTOMAPPER REPLACEMENT
+// AUTOMAPPER Alternative
 // When to use? Whereever you need to map (project) your DB entity into a DTO.
 // ie. A data service layer. You don't get much value in 1:1 mappings so
 // extension methods aren't my favorite here.
