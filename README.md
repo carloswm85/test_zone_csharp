@@ -26,6 +26,10 @@ Personal notes on C# programming language.
 - [Code Notes](#code-notes)
   - [Function-bodied expressions](#function-bodied-expressions)
   - [Overriding](#overriding)
+  - [Flow Control](#flow-control)
+  - [If-Else, Ternary Operator](#if-else-ternary-operator)
+    - [Simple Case(s):](#simple-cases)
+    - [Complex Case(s):](#complex-cases)
 - [Language Keywords, Concepts](#language-keywords-concepts)
   - [`abstract`](#abstract)
   - [Access Modifiers](#access-modifiers)
@@ -266,7 +270,6 @@ public static float AverageThreeScores(float a, float b, float c) => (a + b + c)
 ```
 
 ## Overriding
-
 ```csharp
 // And StringBuilder example
 public override string SendMessage(string message)
@@ -280,6 +283,45 @@ public override string SendMessage(string message)
     return sb.ToString();
 }
 ```
+
+## Flow Control
+
+## If-Else, Ternary Operator
+
+### Simple Case(s):
+```csharp
+public class FlowControl
+{
+  // CASE 1
+  public bool IsYourFavoriteColorYellow(string color)
+  {
+    return (color.ToLower() == "yellow"); // evaluates to true/false
+  }
+  // CASE 2
+  // ternary operator
+  public bool IsYourFavoriteColorGreen(string color)
+  {
+    return (color.ToLower() == "green") ? true : false;
+  }
+  // CASE 3
+  public bool IsYourFavoriteColorRed(string color)
+  {
+    if (color.ToLower() == "red") return true;
+    return false;
+  }
+  // CASE 4
+  public bool IsYourFavoriteColorBlue(string color)
+  {
+    if(color.ToLower() == "blue")
+    {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+```
+### Complex Case(s):
 
 # Language Keywords, Concepts
 
