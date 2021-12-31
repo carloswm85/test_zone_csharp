@@ -27,9 +27,12 @@ Personal notes on C# programming language.
   - [Function-bodied expressions](#function-bodied-expressions)
   - [Overriding](#overriding)
   - [Flow Control](#flow-control)
+    - [Conditions:](#conditions)
+    - [Loops:](#loops)
 - [Language Keywords, Concepts](#language-keywords-concepts)
   - [`abstract`](#abstract)
   - [Access Modifiers](#access-modifiers)
+  - [Assembly](#assembly)
   - [Auto-properties](#auto-properties)
   - [Extension Methods](#extension-methods)
   - [`interface`](#interface)
@@ -282,8 +285,10 @@ public override string SendMessage(string message)
 ```
 
 ## Flow Control
-- [Conditions →](docs/conditions.md) 
-- [Loops →](docs/loops.md) 
+### Conditions:
+[Code →](docs/conditions.md) 
+### Loops:
+[Code →](docs/loops.md) 
 
 # Language Keywords, Concepts
 
@@ -315,8 +320,24 @@ If you struggle to remember the two-worded access modifiers, remember outside-in
 - `private protected`: `private` outside (the same assembly), `protected` inside (same assembly).
 - `protected internal`: `protected` outside (the same assembly), `internal` inside (same assembly).
 
-## Auto-properties
+## Assembly
+- [StackOverflow ↗](https://stackoverflow.com/questions/1362242/what-exactly-is-an-assembly-in-c-sharp-or-net)
+- It is the compiled output of your code, typically a DLL, but your EXE is also an assembly. It's the smallest unit of deployment for any .NET project. It can be found in (some projects?) at `bin` → `debug` → `*.dll` (for example).
+- How to use in VS2019:
+  - `Rebuild` the current solution.
+  - Open: `C# Interactive` window, for testing simple constructs. Clear it, then reset it.
+  - Type in: `#r "<assembly-path.dll>"`, which adds a metadata reference to specified assembly and all its dependencies. Then the assembly is loaded.
+  - Use the assembly in the code (its classes and whatever).
+  - Example:
 
+      ```csharp
+      #r "E:\EssentialTraining\EssentialTraining\bin\Debug\EssentialTraining.dll"
+      var test = new EssentialTraining.ProgrammingLoops(); // new namespace.class();
+      test.ForLoop() // instance.methodOfTheClass();
+      // 4950
+      ```
+ 
+## Auto-properties
 - They can have logic in it.
 ```csharp
 public class ScoreUtility {
@@ -331,9 +352,7 @@ public class Genre {
   {
     get { return this.name; } // accesor, returns
     set { this.name = value; } // mutator, assigns
-
     // or
-
     get => name;
     set => name = value;
   }
