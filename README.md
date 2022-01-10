@@ -9,6 +9,7 @@ Personal notes on C# programming language.
   - [Design/Patterns](#designpatterns)
 - [Readings](#readings)
 - [General Notes](#general-notes)
+  - [Dictionary/Abbreviations/Meanings](#dictionaryabbreviationsmeanings)
 - [Project Instructions](#project-instructions)
   - [.NET Console Application](#net-console-application)
     - [Commands](#commands)
@@ -22,7 +23,9 @@ Personal notes on C# programming language.
     - [Simple](#simple)
   - [(Some) Concepts](#some-concepts)
   - [Unit Testing](#unit-testing)
-    - [Unit Testing example:](#unit-testing-example)
+    - [Unit Testing example](#unit-testing-example)
+  - [`try`/`catch`/`finally`](#trycatchfinally)
+    - [Example](#example)
 - [Code Notes](#code-notes)
   - [Function-bodied expressions](#function-bodied-expressions)
   - [Overriding](#overriding)
@@ -35,12 +38,15 @@ Personal notes on C# programming language.
   - [Assembly](#assembly)
   - [Auto-properties](#auto-properties)
   - [Extension Methods](#extension-methods)
+  - [(correct object Initialization](#correct-object-initialization)
   - [`interface`](#interface)
   - [LINQ (Language Integrated Query)](#linq-language-integrated-query)
     - [Code Example:](#code-example)
     - [Extension Methods:](#extension-methods-1)
+  - [Logging, with NLog ↗](#logging-with-nlog-)
   - [`namespace`](#namespace)
   - [`public`](#public)
+  - [Singleton](#singleton)
   - [`static`](#static)
   - [`this`](#this)
   - [`virtual`](#virtual)
@@ -94,6 +100,9 @@ Learn more.
 # General Notes
 
 - Style: [Link](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions)
+
+## Dictionary/Abbreviations/Meanings
+[Table →](docs/dictionary.md)
 
 # Project Instructions
 
@@ -228,7 +237,7 @@ var dictionaryWord = new Dictionary<string, int>(); // from implicit 0 elements 
   - Review results. →
   - (Repeat the process as many times as you need/want.) ←
 
-### Unit Testing example:
+### Unit Testing example
 ```csharp
 namespace EssentialTrainingTests
 {
@@ -251,6 +260,45 @@ namespace EssentialTrainingTests
 			Assert.IsFalse(testInstance.ToString().StartsWith("I like potatoes")); // expect false
 		}
 	}
+}
+```
+
+## `try`/`catch`/`finally`
+- `try`: It partitions code that might be aff#ected by an exception.
+- `catch`: It handles the associated exception.
+- `finally`: This code is always run, no matter what.
+- Also:
+  - `using`: It provides a convenient syntax that ensures the correct use of *disposable* objects.
+  - File and Font are examples of managed types that access unmanaged resources (in this case file handles and device contexts). There are many other kinds of unmanaged resources and class library types that encapsulate them. All such types must implement the `IDisposable` interface, or the `IAsyncDisposable` interface. [More info ↗](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement)
+
+### Example
+```csharp
+try
+{
+  using (var sr = new StreamReader(@"C:\Temp\text.txt"))
+  {
+    string contents = sr.ReadToEnd();
+    Console.WriteLine(contents);
+  }
+}
+catch(System.IO.DirectoryNotFoundException ex) // catch 1, specific exception
+{
+  Console.WriteLine("Could not find the directory.");
+}
+catch(System.IO.FileNotFoundException ex) // catch 2, specific exception
+{
+  Console.WriteLine("Couldn't find the file.");
+}
+catch (Exception ex) // catch 3, general exception
+{
+  Console.WriteLine("An unknown error ocurred " + ex.Message);
+}
+finally
+{
+  Console.WriteLine("The \"finally\" runs no matter what.");
+  // This block can be used for:
+  //    - cleaning up database or network connections.
+  //    - releasing resources that are allocated in the try block.
 }
 ```
 
@@ -381,6 +429,28 @@ namespace SchoolLibrary
 }
 ```
 
+
+## (correct object Initialization
+
+```csharp
+namespace EssentialTrainingApp
+{
+	class Program
+	{
+		public static List<string> Words; // if not initialized later, it is just set to null here.
+        // If it's not initialized, it'll be thrown a run time exception, 
+        // System.NullReferenceException: 'Object reference not set to an instance of an object.'
+		static void Main(string[] args)
+		{
+			Words = new List<string>(); // At this point of code, the List is being initialized to empty.
+			Words.Add("break");
+			Words.Add("milk");
+			Words.Add("cheese");
+		}
+	}
+}
+```
+
 ## `interface`
 - Set of behaviours.
 - It allows to require a class to implement certain properties and methods signatures, under a same name.
@@ -437,11 +507,19 @@ listOfNumbers.Where(item => item > 5) // Enumerable.WhereArrayIterator<int> { 7,
 - Extension Methods help blend the flexibility of "duck typing" support popular within dynamic languages today with the performance and compile-time validation of strongly-typed languages.
 - [Additional information ↗](https://stackoverflow.com/a/403556/7389293)
 
+## Logging, with [NLog ↗]()
+- It allows to write status messages to a file or other output streams.
+- These messages contain information on which parts of your code have executed and what problems may arisen.
+- Each log message has a level, the five buil-in messages are: _debug_, _info_, _warning_, _error_.
+- If you want, you can create additional levels.
 ## `namespace`
 - They are packages in Java.
 - Used for avoiding "namespace collision".
 ## `public`
 - 
+
+## Singleton
+- Uses: Logging, Database driver, Hardware interface access, Cache.
 ## `static`
 - Used for none-instanciable methods. They belong to the class alone.
 ## `this`
@@ -460,13 +538,12 @@ listOfNumbers.Where(item => item > 5) // Enumerable.WhereArrayIterator<int> { 7,
 
 # Courses
 
-
 ## C# Path: `Become a C# Developer`
 
 ### Courses:
 - _C# Essential Training: 1 Syntax and Object Oriented Programming_, with Bruce Van Horn | [Course Assignments →](courses/SchoolApp/)
 - _C# Essential Training: 2 Flow Control, Arrays, and Exception Handling_, with Bruce Van Horn | [Course Assignments →]()
-- _Code Clinic: C#_, with | [Course →]()
+- _Code Clinic: C#_, with | [Course →](courses/EssentialTraining/)
 - _C# Algorithms_, with | [Course →]()
 - _C#: Design Patterns Part 1_, with | [Course →]()
 - _Nail Your C# Developer Interview_, with | [Course →]()
@@ -486,3 +563,6 @@ listOfNumbers.Where(item => item > 5) // Enumerable.WhereArrayIterator<int> { 7,
 
 ## Other C# Courses
 - _LINQ with C# Essential Training_, with 
+- _Learning Universal Windows App Development_, with Doug Winnie.
+- _Learning ASP.NET Core MVC_, with Jess Chadwick.
+- _Xamarin Essential Training_, with Walt Ritscher.
